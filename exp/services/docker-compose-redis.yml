@@ -1,0 +1,8 @@
+version: '3.9'
+
+services:
+  redis_db:
+    image: 'redis:alpine'
+    command: redis-server
+    volumes:
+      - ./redis-data:/data
