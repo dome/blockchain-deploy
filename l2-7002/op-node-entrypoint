@@ -13,6 +13,10 @@ exec op-node --l2=http://op-geth:8551 \
   --p2p.sequencer.key=$GS_SEQUENCER_PRIVATE_KEY \
   --l1=$L1_RPC_URL \
   --l1.rpckind=$L1_RPC_KIND \
-  --plasma.enabled="true" \
-  --plasma.da-server=http://da-server:3100
+  --l1.beacon=$L1_BEACON_URL \
+  --l1.beacon-archiver=$L1_BEACON_URL \
+  --plasma.enabled="false" \
+#  --plasma.da-server=http://da-server:3100
+#  --plasma.da-service="true" \
+#  --plasma.da-server=https://dcda-dev.dome.cloud
 

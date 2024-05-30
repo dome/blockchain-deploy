@@ -14,5 +14,8 @@ exec op-batcher \
   --max-channel-duration=6 \
   --l1-eth-rpc=$L1_RPC_URL \
   --private-key=$GS_BATCHER_PRIVATE_KEY \
-  --plasma.enabled=true \
-  --plasma.da-server=http://da-server:3100
+  --data-availability-type=blobs \
+  --plasma.enabled="false"
+#  --plasma.da-server=http://da-server:3100
+#  --plasma.da-service="true" \
+#  --plasma.da-server=https://dcda-dev.dome.cloud

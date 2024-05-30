@@ -21,4 +21,6 @@ geth --datadir /datadir \
   --authrpc.addr=0.0.0.0 \
   --authrpc.port=8551 \
   --authrpc.jwtsecret=/config/jwt.txt \
-  --rollup.disabletxpoolgossip=true
+  --db.engine=pebble \
+  --rpc.allow-unprotected-txs
+  

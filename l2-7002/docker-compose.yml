@@ -18,7 +18,7 @@ services:
         max-file: "10"
 
   op-geth: 
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-geth:e9a306bafb0bde2c154c5d2a21018592b7207427
+    image: ghcr.io/otternode-io/op-geth:v1.101315.1 
     user: root
     ports:
       - 8545:8545       # RPC
@@ -36,7 +36,7 @@ services:
         max-file: "10"
 
   op-node: 
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-node:24a8d3e06e61c7a8938dfb7a591345a437036381
+    image: ghcr.io/otternode-io/op-stack:1.0.0
     user: root
     depends_on:
       - op-geth
@@ -60,7 +60,7 @@ services:
         max-file: "10"
 
   op-batcher:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-batcher:24a8d3e06e61c7a8938dfb7a591345a437036381
+    image: ghcr.io/otternode-io/op-stack:1.0.0
     user: root
     depends_on:
       - op-geth
@@ -81,7 +81,7 @@ services:
         max-file: "10"
 
   op-proposer:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-proposer:24a8d3e06e61c7a8938dfb7a591345a437036381
+    image: ghcr.io/otternode-io/op-stack:1.0.0
     user: root
     depends_on:
       - op-geth
