@@ -1,0 +1,100 @@
+services:
+  da-server:
+    image: domecloud/da-server:devnet
+    command: >
+      da-server
+      --file.path=/data
+      --addr=0.0.0.0
+      --port=3100
+      --log.level=debug
+    ports:
+      - "3100:3100"
+    volumes:
+      - "./data/lda_data:/data"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+  op-geth: 
+    image: ghcr.io/otternode-io/op-geth:v1.101315.1 
+    user: root
+    ports:
+      - 8545:8545       # RPC
+    entrypoint: /op-geth-entrypoint
+    volumes:
+        - ./data/op-geth:/datadir
+        - ./config:/config
+        - ./op-geth-entrypoint:/op-geth-entrypoint
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+  op-node: 
+    image: ghcr.io/otternode-io/op-stack:1.0.0
+    user: root
+    depends_on:
+      - op-geth
+      - da-server
+    ports:
+      - 7545:8547     # RPC
+      - 9222:9222     # P2P TCP
+      - 9222:9222/udp # P2P UDP
+      - 7300:7300     # metrics
+      - 6060:6060     # pprof
+    entrypoint: /op-node-entrypoint
+    volumes:
+        - ./config:/config
+        - ./op-node-entrypoint:/op-node-entrypoint
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+  op-batcher:
+    image: ghcr.io/otternode-io/op-stack:1.0.0
+    user: root
+    depends_on:
+      - op-geth
+      - da-server
+      - op-node
+    ports:
+      - 8548:8548
+    entrypoint: /op-batcher-entrypoint
+    volumes:
+        - ./config:/config
+        - ./op-batcher-entrypoint:/op-batcher-entrypoint
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+  op-proposer:
+    image: ghcr.io/otternode-io/op-stack:1.0.0
+    user: root
+    depends_on:
+      - op-geth
+      - op-node
+    entrypoint: /op-proposer-entrypoint
+    volumes:
+        - ./config:/config
+        - ./op-proposer-entrypoint:/op-proposer-entrypoint
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
